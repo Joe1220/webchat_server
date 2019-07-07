@@ -1,13 +1,14 @@
-# Koa Boilerplate
+# SH's WEB CHATTING SERVER
 - koa-es7-boilerplate기반(https://github.com/jeffijoe/koa-es7-boilerplate)
 
 ## Skill Stack
 - Language: Typescript, Node
-- Data: MongoDB
+- Data: MariaDB
 - Library: 
   - awailix, ailix-koa(의존성 관련)
   - yenv(환경 관련)
   - koa2-swagger-ui, swagger-jsdoc)(swagger 관련)
+  - 양방향 통신: socketio
 
 # License
 

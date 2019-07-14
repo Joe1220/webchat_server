@@ -6,13 +6,15 @@ import cors from '@koa/cors'
 import respond from 'koa-respond'
 import bodyParser from 'koa-bodyparser'
 import compress from 'koa-compress'
-import { scopePerRequest, loadControllers } from 'awilix-koa'
+import socketio from 'socket.io'
+import { scopePerRequest } from 'awilix-koa'
 import sequelize from './models'
 
 import { logger } from './logger'
 import { configureContainer } from './container'
 import { notFoundHandler } from '../middleware/not-found'
 import { errorHandler } from '../middleware/error-handler'
+import { socketHandler } from '../middleware/socket-handler'
 import { registerContext } from '../middleware/register-context'
 
 export async function createServer() {
@@ -32,7 +34,7 @@ export async function createServer() {
     .use(registerContext)
     .use(
       koaSwagger({
-        title: 'coworksys',
+        title: 'web_chat',
         routePrefix: '/swagger',
         swaggerOptions: {
           spec: swaggerSpec,
@@ -40,10 +42,14 @@ export async function createServer() {
         }
       })
     )
-    .use(loadControllers('../routes/*.js', { cwd: __dirname }))
     .use(notFoundHandler)
 
   const server = http.createServer(app.callback())
+
+  // socket connect
+  const io = socketio.listen(server)
+
+  socketHandler(io)
 
   server.on('close', () => {
     logger.debug('Server closing, bye!')

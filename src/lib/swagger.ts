@@ -3,9 +3,9 @@ import path from 'path'
 
 const swaggerDefinition = {
   info: {
-    title: 'COWORKSYS API',
+    title: 'WEBCHAT API',
     version: '1.0.0',
-    description: 'COWORKSYS API',
+    description: 'WEBCHAT API',
   },
   basePath: '/'
 }

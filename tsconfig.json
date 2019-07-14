@@ -5,20 +5,19 @@
     "noImplicitAny": false,
     "outDir": "./dist",
     "rootDir": "./src",
-    "sourceMap": true,
+    "sourceMap": false,
     "allowJs": true,
     "strictNullChecks": false,
-    "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "removeComments": true,
-    "lib": [
-      "es6",
-      "esnext"
-    ],
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
     "types": [
       "node",
       "koa",
+      "sequelize",
       "jest"
     ]
   },

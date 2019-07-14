@@ -9,7 +9,10 @@
     "one-line": [true, "check-open-brace", "check-whitespace"],
     "object-literal-sort-keys": [false],
     "no-string-literal": false,
-    "triple-equals": [false]
+    "triple-equals": [false],
+    "member-access": [true, "no-public"],
+    "ordered-imports": false,
+    "prefer-const": false
   },
   "rulesDirectory": []
 }

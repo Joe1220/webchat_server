@@ -22,4 +22,8 @@ export default class RoomService {
     update = _.pickBy(update, _.identity)
     return await Room.update(update, { where: { id } } )
   }
+
+  async delete(id) {
+    return await Room.destroy({ where: { id } })
+  }
 }

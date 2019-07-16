@@ -1,4 +1,4 @@
-import { Room } from '../sequelize'
+import { Room, User } from '../sequelize'
 import _ from 'lodash'
 
 export default class RoomService {
@@ -10,12 +10,12 @@ export default class RoomService {
 
   async gets(where = {}) {
     where = _.pickBy(where, _.identity)
-    return await Room.findAll({ where })
+    return await Room.findAll({ where, include: [User] })
   }
 
   async get(where = {}) {
     where = _.pickBy(where, _.identity)
-    return await Room.findOne({ where })
+    return await Room.findOne({ where, include: [User] })
   }
 
   async update(update = { }, id) {

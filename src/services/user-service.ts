@@ -28,4 +28,13 @@ export default class UserService {
 
     return await user.update({ roomId })
   }
+
+  async leaveRoom({ userId, roomId }) {
+    await this.roomService.get({ id: roomId })
+      .then(NotFound.makeAssert('401'))
+
+    const user = await this.getUser({ id: userId })
+
+    return await user.update({ roomId: null })
+  }
 }

@@ -18,9 +18,9 @@ export class Room extends Model<Room> {
   title: string
   
   @HasMany(() => User)
-  users: User
+  users: User[]
 
   @HasMany(() => Message)
-  messages: Message
+  messages: Message[]
 }
 

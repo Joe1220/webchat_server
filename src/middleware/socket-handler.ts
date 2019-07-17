@@ -64,7 +64,17 @@ export function socketHandler(io) {
       socket.leave(id, () => {
         socket.to(id).emit('in_room', inRoom)
         socket.to(LOBBY_ROOM_ID).emit('get_rooms', rooms)
+    socket.on('message', async({ userId, roomId, message }) => {
+      await messageService.create({
+        message,
+        userId, 
+        roomId
       })
+
+      const inRoom = await roomService.get({ id: roomId })
+
+      socket.emit('in_room', inRoom)
+      socket.to(roomId).emit('in_room', inRoom)
     })
 
     socket.on('disconnect', () => {

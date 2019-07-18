@@ -16,7 +16,8 @@
     "test": "cross-env NODE_ENV=test jest",
     "cover": "npm run test -- --coverage",
     "lint": "eslint --fix src && prettier --write \"src/**/*.js\"",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "heroku-postbuild": "npm run build"
   },
   "dependencies": {
     "@koa/cors": "^2.2.2",

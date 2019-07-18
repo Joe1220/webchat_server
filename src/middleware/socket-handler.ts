@@ -1,5 +1,7 @@
 import RoomService from '../services/room-service'
 import UserService from '../services/user-service'
+import MessageService from '../services/message-service'
+
 const LOBBY_ROOM_ID = 'LOBBY'
 
 export function socketHandler(io) {
@@ -7,6 +9,7 @@ export function socketHandler(io) {
     // connect services
     const roomService = new RoomService({})
     const userService = new UserService({ roomService })
+    const messageService = new MessageService({ roomService })
 
     socket.on('login', async({ nickname }) => {
       await userService.create({ id: socket.id, nickname })
@@ -41,6 +44,7 @@ export function socketHandler(io) {
       await userService.enterRoom({ userId: user.id, roomId: id })
 
       const inRoom = await roomService.get({ id })
+
       const rooms = await roomService.gets()
 
       socket.join(id, () => {
@@ -55,16 +59,23 @@ export function socketHandler(io) {
       await userService.leaveRoom({ userId: user.id, roomId: id })
 
       const inRoom = await roomService.get({ id })
-      let rooms = await roomService.gets()
 
+      // 방 나갈 때 유저 0명일 시 방과 메세지 삭제
       if(inRoom.users.length < 1) {
+        if(inRoom.messages.length > 0) {
+          await inRoom.messages.map(message => {
+            messageService.delete(message.id)
+          })
+        }
         await roomService.delete(id)
-        rooms = await roomService.gets()
       }
 
-      socket.leave(id, () => {
+      socket.leave(id, async () => {
         socket.to(id).emit('in_room', inRoom)
-        socket.to(LOBBY_ROOM_ID).emit('get_rooms', rooms)
+        socket.to(LOBBY_ROOM_ID).emit('get_rooms', await roomService.gets())
+      })
+    })
+
     socket.on('message', async({ userId, roomId, message }) => {
       await messageService.create({
         message,

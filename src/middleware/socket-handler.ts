@@ -21,7 +21,8 @@ export function socketHandler(io) {
       })
     })
 
-    socket.on('leave_lobby', () => {
+    socket.on('leave_lobby', async ({ id }) => {
+      await userService.delete(id)
       socket.leave(LOBBY_ROOM_ID)
     })
 

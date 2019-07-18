@@ -37,4 +37,8 @@ export default class UserService {
 
     return await user.update({ roomId: null })
   }
+
+  async delete(id) {
+    return await User.destroy({ where: { id } })
+  }
 }

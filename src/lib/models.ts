@@ -1,10 +1,9 @@
-import yenv from 'yenv'
 import path from 'path'
 import { Sequelize } from 'sequelize-typescript'
-
-const env = yenv('env.yaml')
+import { env } from './env'
 
 const sequelize =  new Sequelize({
+  operatorsAliases: Sequelize.Op as any,
   database: env.DB_DATABASE,
   host: env.DB_HOST,
   dialect: env.DB_DIARECT,

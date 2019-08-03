@@ -9,7 +9,12 @@ const sequelize =  new Sequelize({
   username: env.DB_USERNAME,
   password: '' + env.DB_PASSWORD,
   port: env.DB_PORT,
-  modelPaths: [path.join(__dirname, '../sequelize/models')]
+  modelPaths: [path.join(__dirname, '../sequelize/models')],
+  define: {
+    timestamps: true,
+    paranoid: true,
+    charset: 'utf8'
+  }
 })
 
 export default sequelize

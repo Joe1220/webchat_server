@@ -42,6 +42,9 @@ export function socketHandler(io) {
     // id는 room id
     socket.on('enter_room', async ({ id, user }) => {
       await userService.enterRoom({ userId: user.id, roomId: id })
+        .catch(e => {
+          socket.emit('not_room', e)
+        })
 
       const inRoom = await roomService.get({ id })
 

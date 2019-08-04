@@ -20,6 +20,11 @@ export default class UserService {
         .then(NotFound.makeAssert('401')) 
   }
 
+  async gets(where) {
+    where = _.pickBy(where, _.identity)
+    return await User.findAll({ where })
+  }
+
   async enterRoom({ userId, roomId }) {
     await this.roomService.get({ id: roomId })
       .then(NotFound.makeAssert('401'))

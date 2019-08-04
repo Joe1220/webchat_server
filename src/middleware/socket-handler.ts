@@ -1,3 +1,7 @@
+import moment from 'moment'
+import { getLastTwelveMonth, getUserListFromMonths } from '../utils/date'
+
+import { sequelize } from '../sequelize'
 import RoomService from '../services/room-service'
 import UserService from '../services/user-service'
 import MessageService from '../services/message-service'
@@ -10,6 +14,28 @@ export function socketHandler(io) {
     const roomService = new RoomService({})
     const userService = new UserService({ roomService })
     const messageService = new MessageService({ roomService })
+
+    // 12개월동안 가입된 유저 불러오기
+    socket.on('get_users', async() => {
+      // 12개월 기준으로 가입된 유저 불러오기
+      const firstDay = getLastTwelveMonth()
+      const createdAt = { [sequelize.Op.gte]: moment(firstDay).utc().startOf('day') }
+      const existUsers = await userService.gets({ createdAt })
+   
+      const userListFromMonths = getUserListFromMonths(existUsers)
+      socket.emit('get_users', userListFromMonths)
+    })
+
+    // 12개월동안 메세지의 양
+    socket.on('get_messages', async() => {
+      // 12개월 기준으로 가입된 유저 불러오기
+      const firstDay = getLastTwelveMonth()
+      const createdAt = { [sequelize.Op.gte]: moment(firstDay).utc().startOf('day') }
+      const existMessages = await messageService.gets({ createdAt })
+    
+      const messageListFromMonths = getUserListFromMonths(existMessages)
+      socket.emit('get_messages', messageListFromMonths)
+    })
 
     socket.on('login', async({ nickname }) => {
       await userService.create({ id: socket.id, nickname })
@@ -63,15 +89,8 @@ export function socketHandler(io) {
 
       const inRoom = await roomService.get({ id })
 
-      // 방 나갈 때 유저 0명일 시 방과 메세지 삭제
-      if(inRoom.users.length < 1) {
-        if(inRoom.messages.length > 0) {
-          await inRoom.messages.map(message => {
-            messageService.delete(message.id)
-          })
-        }
-        await roomService.delete(id)
-      }
+      // 방 나갈 때 유저 0명일 시 방 삭제(메세지는 그대로 기록)
+      await roomService.delete(id)
 
       socket.leave(id, async () => {
         socket.to(id).emit('in_room', inRoom)

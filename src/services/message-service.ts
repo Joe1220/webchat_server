@@ -16,5 +16,10 @@ export default class MessageService {
   async delete(id) {
     return await Message.destroy({ where: { id } })
   }
+
+  async gets(where) {
+    where = _.pickBy(where, _.identity)
+    return await Message.findAll({ where })
+  }
 }
  

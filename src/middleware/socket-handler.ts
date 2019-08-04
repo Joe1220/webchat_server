@@ -90,7 +90,9 @@ export function socketHandler(io) {
       const inRoom = await roomService.get({ id })
 
       // 방 나갈 때 유저 0명일 시 방 삭제(메세지는 그대로 기록)
-      await roomService.delete(id)
+      if(inRoom.users.length < 1) {
+        await roomService.delete(id)
+      }
 
       socket.leave(id, async () => {
         socket.to(id).emit('in_room', inRoom)

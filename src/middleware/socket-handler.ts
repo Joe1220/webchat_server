@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { getLastTwelveMonth, getUserListFromMonths } from '../utils/date'
+import { getLastTwelveMonth, getListFromMonths } from '../utils/date'
 
 import { sequelize } from '../sequelize'
 import RoomService from '../services/room-service'
@@ -22,7 +22,7 @@ export function socketHandler(io) {
       const createdAt = { [sequelize.Op.gte]: moment(firstDay).utc().startOf('day') }
       const existUsers = await userService.gets({ createdAt })
    
-      const userListFromMonths = getUserListFromMonths(existUsers)
+      const userListFromMonths = getListFromMonths(existUsers)
       socket.emit('get_users', userListFromMonths)
     })
 
@@ -33,7 +33,7 @@ export function socketHandler(io) {
       const createdAt = { [sequelize.Op.gte]: moment(firstDay).utc().startOf('day') }
       const existMessages = await messageService.gets({ createdAt })
     
-      const messageListFromMonths = getUserListFromMonths(existMessages)
+      const messageListFromMonths = getListFromMonths(existMessages)
       socket.emit('get_messages', messageListFromMonths)
     })
 

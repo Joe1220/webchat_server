@@ -17,8 +17,8 @@ export const getLastTwelveMonths = (format = 'YYYY-MM-01') => {
   return result
 }
 
-// 최종적으로 지난 12개월동안 가입한 유저 목록을 출력
-export const getUserListFromMonths = users => {
+// 최종적으로 지난 12개월동안 유저, 메세지 목록 출력
+export const getListFromMonths = datas => {
   const dateFormat = 'YY.MM'
   const months = getLastTwelveMonths(dateFormat) // 지난 12개월 달들의 목록
   // 각 달들의 key값으로 배열 생성. 최초값 0
@@ -26,9 +26,9 @@ export const getUserListFromMonths = users => {
     return { key: month, value: 0 }
   })
   // 유저 생성날짜와 달이 같을 경우 value 값 증가
-  users.forEach(user => {
-    const userCreatedAt = moment(user.createdAt).format(dateFormat)
-    const current = result.find(month => month.key === userCreatedAt)
+  datas.forEach(data => {
+    const dataCreatedAt = moment(data.createdAt).format(dateFormat)
+    const current = result.find(month => month.key === dataCreatedAt)
     current.value += 1
   })
   return result

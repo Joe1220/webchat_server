@@ -17,11 +17,6 @@ import { errorHandler } from '../middleware/error-handler'
 import { socketHandler } from '../middleware/socket-handler'
 import { registerContext } from '../middleware/register-context'
 
-const corsOptions = {
-  origin: 'https://jsh-webchat-client.herokuapp.com/',
-  optionsSuccessStatus: 200
-}
-
 export async function createServer() {
   logger.debug('Creating server...')
   const app = new Koa()
@@ -33,7 +28,7 @@ export async function createServer() {
     .use(errorHandler)
     .use(compress())
     .use(respond())
-    .use(cors(corsOptions))
+    .use(cors())
     .use(bodyParser())
     .use(scopePerRequest(container))
     .use(registerContext)

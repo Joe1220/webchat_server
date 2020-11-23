@@ -17,18 +17,23 @@ import { errorHandler } from '../middleware/error-handler'
 import { socketHandler } from '../middleware/socket-handler'
 import { registerContext } from '../middleware/register-context'
 
+const corsOptions = {
+  origin: 'https://jsh-webchat-client.herokuapp.com/',
+  optionsSuccessStatus: 200
+}
+
 export async function createServer() {
   logger.debug('Creating server...')
   const app = new Koa()
 
-  await sequelize.sync({force: false})
+  await sequelize.sync({ force: false })
 
   const container = (app['container'] = configureContainer())
   app
     .use(errorHandler)
     .use(compress())
     .use(respond())
-    .use(cors())
+    .use(cors(corsOptions))
     .use(bodyParser())
     .use(scopePerRequest(container))
     .use(registerContext)

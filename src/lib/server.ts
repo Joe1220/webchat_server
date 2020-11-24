@@ -21,14 +21,14 @@ export async function createServer() {
   logger.debug('Creating server...')
   const app = new Koa()
 
-  await sequelize.sync({force: false})
+  await sequelize.sync({ force: false })
 
   const container = (app['container'] = configureContainer())
   app
     .use(errorHandler)
     .use(compress())
     .use(respond())
-    .use(cors())
+    .use(cors({ origin: '*' }))
     .use(bodyParser())
     .use(scopePerRequest(container))
     .use(registerContext)

@@ -32,7 +32,7 @@
     "koa-respond": "^2.1.0",
     "koa-router": "^7.4.0",
     "koa2-swagger-ui": "^2.13.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "moment": "^2.24.0",
     "mysql2": "^1.6.5",
     "palin": "^2.2.0",

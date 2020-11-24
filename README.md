@@ -1,10 +1,12 @@
 # SH's WEB CHATTING SERVER
+
 - koa-es7-boilerplate기반(https://github.com/jeffijoe/koa-es7-boilerplate)
 
 ## Skill Stack
+
 - Language: Typescript, Node
 - Data: MariaDB
-- Library: 
+- Library:
   - awailix, ailix-koa(의존성 관련)
   - yenv(환경 관련)
   - koa2-swagger-ui, swagger-jsdoc)(swagger 관련)
@@ -14,7 +16,7 @@
 
 MIT.
 
-- api-helper: /src/__tests__/api-helper.js
+- api-helper: /src/**tests**/api-helper.js
 - close-event: /src/lib/server.js#L58
 - standard: http://standardjs.com/
 - koa-router: https://github.com/alexmingoia/koa-router
@@ -36,3 +38,9 @@ MIT.
 - koa2-swagger-ui: https://github.com/scttcper/koa2-swagger-ui
 - swagger-jsdoc: https://github.com/Surnet/swagger-jsdoc
 - typescript-sequelize: https://github.com/RobinBuschmann/sequelize-typescript#readme
+
+![webchat_1](https://user-images.githubusercontent.com/30386090/100142529-6149b980-2ed7-11eb-903e-8d70ac153683.PNG)
+
+![webchat_2](https://user-images.githubusercontent.com/30386090/100142525-60b12300-2ed7-11eb-9197-fff45b3a0e09.PNG)
+
+![webchat_3](https://user-images.githubusercontent.com/30386090/100142528-6149b980-2ed7-11eb-95c6-0be53f56baab.PNG)
